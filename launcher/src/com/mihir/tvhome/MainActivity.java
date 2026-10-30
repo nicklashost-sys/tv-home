@@ -116,8 +116,8 @@ public class MainActivity extends Activity {
         dockApps = getResources().getStringArray(R.array.dock_apps);
         hidden.addAll(Arrays.asList(getResources().getStringArray(R.array.hidden_apps)));
         hidden.add(getPackageName());
-        liveTvPkg = getString(R.string.live_tv_package);
-        inputPickerPkg = getString(R.string.input_picker_package);
+        liveTvPkg = firstInstalled(R.array.live_tv_packages);
+        inputPickerPkg = firstInstalled(R.array.input_picker_packages);
         cols = getResources().getInteger(R.integer.columns);
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -783,6 +783,11 @@ public class MainActivity extends Activity {
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
+    }
+
+    private String firstInstalled(int arrayId) {
+        for (String pkg : getResources().getStringArray(arrayId)) if (isInstalled(pkg)) return pkg;
+        return null;
     }
 
     private void openPackage(String pkg) {

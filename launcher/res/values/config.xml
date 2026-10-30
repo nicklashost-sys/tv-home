@@ -13,21 +13,32 @@
         <item>com.amazon.amazonvideo.livingroom</item>
     </string-array>
 
-    <!-- Never shown as tiles: system helpers, and the Live TV app (it's in the Inputs menu). -->
+    <!-- Never shown as tiles: system helpers, and the Live TV app (it's in the Inputs menu).
+         Packages that aren't installed are ignored, so one list can cover several TVs. -->
     <string-array name="hidden_apps">
+        <!-- TCL -->
         <item>com.tcl.tv</item>
         <item>com.tcl.suspension</item>
         <item>com.tcl.t_solo</item>
         <item>com.tcl.dashboard</item>
+        <!-- Thomson -->
+        <item>com.mediatek.tv.oneworld.tvcenter</item>
     </string-array>
 
-    <!-- The TV's Live TV / tuner app, listed last in the Inputs menu. Empty to leave it out.
-         Common ones: com.tcl.tv (TCL), com.mediatek.wwtv.tvcenter (Xiaomi, many MediaTek sets),
+    <!-- The TV's Live TV / tuner app, listed last in the Inputs menu. The first installed one is used;
+         empty to leave it out. Others: com.mediatek.wwtv.tvcenter (Xiaomi, many MediaTek sets),
          com.google.android.tv (Google Live Channels), com.sony.dtv.tvx (Sony). -->
-    <string name="live_tv_package" translatable="false">com.tcl.tv</string>
+    <string-array name="live_tv_packages">
+        <item>com.tcl.tv</item>                         <!-- TCL -->
+        <!-- Thomson: com.mediatek.tv.oneworld.tvcenter, left out (no aerial/cable TV) -->
+    </string-array>
 
-    <!-- The manufacturer's own source picker, used if switching to an input directly fails. -->
-    <string name="input_picker_package" translatable="false">com.tcl.suspension</string>
+    <!-- The manufacturer's own source picker, used if switching to an input directly fails.
+         The first installed one is used. -->
+    <string-array name="input_picker_packages">
+        <item>com.tcl.suspension</item>                 <!-- TCL -->
+        <item>com.mediatek.tv.oneworld.tvcenter</item>  <!-- Thomson -->
+    </string-array>
 
     <!-- Tiles per row in the grid. -->
     <integer name="columns">5</integer>

@@ -1,0 +1,28 @@
+# Thomson 4K Smart TV (Expressluck, MediaTek, device sepolia), Android 14 / Google TV, build UKN6.260116.046
+# Apply: tools/disable.sh examples/thomson-4k-atv5/debloat.txt   Undo: tools/restore.sh <same file>
+# Everything is DISABLED for user 0, never uninstalled.
+# Comment out any line for an app you use. Answers here: casting yes; no voice, no aerial/cable TV,
+# no mirroring, no USB media, no YouTube Music.
+# Not listed on purpose: the stock launcher and setupwraith (launcher/build-and-install.sh handles those)
+# and the 8 packages the factory already ships disabled (restore.sh would otherwise turn them on).
+
+# Tracking and ads
+tv.anoki.acr.anokiacroptin            # Anoki ACR: recognises what's on screen and reports it; starts at boot
+com.mediatek.tv.launcher.partner      # partner rows / promoted apps for the stock launcher
+com.mediatek.tv.retaildemo            # shop demo mode
+
+# Clutter that does nothing on this TV
+tv.mopa.ginga                         # Ginga: Brazilian broadcast interactive-TV middleware
+com.audiocn.karaoke.global.micmanager # karaoke microphone manager
+com.google.android.play.games         # Google Play Games
+com.google.android.apps.tv.dreamx     # ambient screensaver with recommendations (falls back to the basic one)
+
+# Features you don't use
+com.google.android.katniss            # Google TV voice search / Assistant (~65 MB); the mic button stops working
+com.mediatek.browservice              # HbbTV browser engine for broadcast channels (~25 MB)
+org.obs.mhegservice                   # MHEG-5 red button (UK Freeview)
+com.mediatek.miracast                 # screen mirroring
+com.mediatek.wwtv.mediaplayer         # USB photo/video/music player
+com.google.android.youtube.tvmusic    # YouTube Music
+
+# Kept: com.google.android.apps.mediashell and com.mediatek.dialservice (casting from your phone)

@@ -16,7 +16,7 @@ B=build
 rm -rf "$B" && mkdir -p "$B/gen" "$B/classes" "$B/dex"
 "$BT/aapt2" compile --dir res -o "$B/res.zip"
 "$BT/aapt2" link -o "$B/base.apk" -I "$JAR" --manifest AndroidManifest.xml --java "$B/gen" \
-  -A assets --min-sdk-version 30 --target-sdk-version 30 "$B/res.zip"
+  -A assets --min-sdk-version 30 --target-sdk-version 34 "$B/res.zip"
 javac -nowarn -Xlint:-options --release 11 -classpath "$JAR" -d "$B/classes" \
   $(find src "$B/gen" -name '*.java')
 "$BT/d8" --min-api 30 --lib "$JAR" --output "$B/dex" $(find "$B/classes" -name '*.class')
@@ -31,9 +31,12 @@ echo "built $B/tvhome.apk ($(wc -c < "$B/tvhome.apk") bytes)"
 
 PY=../tools/venv/bin/python
 "$PY" -I ../tools/tv.py --push-b64 "$B/tvhome.apk" /data/local/tmp/tvhome.apk
+# Install on its own first: if it fails (e.g. Play Protect blocks it), stop before the stock launcher is disabled.
+out=$("$PY" -I ../tools/tv.py pm install -r /data/local/tmp/tvhome.apk 2>&1 || true)
+"$PY" -I ../tools/tv.py rm -f /data/local/tmp/tvhome.apk
+echo "$out"
+case "$out" in *Success*) ;; *) echo "Install failed; stock launcher left untouched."; exit 1;; esac
 printf '%s\n' \
-  "pm install -r /data/local/tmp/tvhome.apk" \
-  "rm -f /data/local/tmp/tvhome.apk" \
   "pm grant com.mihir.tvhome android.permission.ACCESS_FINE_LOCATION" \
   "cmd package set-home-activity --user 0 com.mihir.tvhome/.MainActivity" \
   "pm disable-user --user 0 $STOCK_LAUNCHER" \
